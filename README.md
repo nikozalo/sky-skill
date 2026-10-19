@@ -23,11 +23,7 @@ Claude shows the skill on a review card. Click **Save** to install it.
 Either way, ask a Sky question and Claude uses the skill, or type `/sky`. You don't need a GitHub
 account.
 
-- Skills need **Code execution and file creation**, which is under **Settings → Capabilities**.
-- If you already have a skill called `sky`, Claude saves this one under a different name, such as
-  `sky-dev`. Claude may also say it dropped the `allowed-tools` list. The skill works without it:
-  the list only saves you some permission prompts.
-- The skill downloads the knowledge base (about 12 MB) from `github.com`. On a Team or
+- Skills need **Code execution and file creation**, which is under **Settings → Capabilities**.- The skill downloads the knowledge base (about 12 MB) from `github.com`. On a Team or
   Enterprise plan, the organization's network settings must allow that domain. The Team plan's
   default does.
 
