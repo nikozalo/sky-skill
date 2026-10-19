@@ -1,0 +1,36 @@
+name: Release
+
+# Builds sky.zip, the file people upload in Claude under Customize → Skills, and publishes it as
+# the latest release, so the README's link
+# (https://github.com/nikozalo/sky-skill/releases/latest/download/sky.zip) is always the skill on
+# main. The zip holds a sky/ folder with the skill's files: Claude looks for sky/SKILL.md.
+
+on:
+  push:
+    branches: [main]
+    paths: [SKILL.md, sync-and-repos.md]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build sky.zip
+        run: |
+          mkdir -p build/sky
+          cp SKILL.md sync-and-repos.md build/sky/
+          (cd build && zip -r -X ../sky.zip sky)
+          unzip -l sky.zip
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="$(date -u +%Y-%m-%d)-${GITHUB_SHA::7}"
+          gh release create "$tag" sky.zip --latest --title "sky $tag" \
+            --notes "Upload sky.zip in Claude under Customize → Skills. See the README for the steps."
